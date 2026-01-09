@@ -28,7 +28,7 @@ export class LoginComponent {
   login(event: Event) {
     event.preventDefault();
 
-    if (this.loginForm.username().value() && this.loginForm.password().value())
+    if (this.loginForm.username().value() && this.loginForm.password().value()) {
       this.loading.set(true);
       this.auth.login({
         username: this.loginForm.username().value(),
@@ -37,7 +37,7 @@ export class LoginComponent {
         .subscribe({
           next: () => {
             this.loading.set(false);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/dashboard']).catch(error => console.log("Navigation error"));
           },
           error: error => {
             console.log(error);
@@ -46,5 +46,6 @@ export class LoginComponent {
             this.error.set(error.error.errors[0] || error.error.message);
           }
         });
+    }
   }
 }
