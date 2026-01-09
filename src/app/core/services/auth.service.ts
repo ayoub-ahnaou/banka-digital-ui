@@ -1,0 +1,48 @@
+import {computed, Injectable, signal} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {LoginResponse} from '../models/login.response.model';
+import {tap} from 'rxjs';
+import {TokenService} from './token.service';
+
+export interface AuthPrincipal {
+  username: string;
+  email: string;
+  role: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private API_URL = 'http://134.122.51.130:80/api/auth'; // TODO: Replace with environment variable
+  private _principal = signal<AuthPrincipal | null>(null);
+
+  principal = computed(() => this._principal());
+  isLoggedIn = computed(() => !!this._principal());
+
+  private constructor(
+    private http: HttpClient,
+    private tokenService: TokenService
+  ) {
+  }
+
+  login(credentials: { username: string; password: string }) {
+    return this.http.post<LoginResponse>(`${this.API_URL}/login`, credentials)
+      .pipe(
+        tap(
+          res => {
+            this.tokenService.save(res.data.accessToken);
+            this._principal.set(res.data.user);
+          }
+        ));
+  }
+
+  logout() {
+    this._principal.set(null);
+    this.tokenService.clear();
+  }
+
+  isAuthenticated(): boolean {
+    return this.tokenService.isLoggedIn();
+  }
+}

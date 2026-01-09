@@ -1,10 +1,12 @@
-import {Component} from '@angular/core';
-import {AuthService} from '../../../core/services/auth.principal';
+import {Component, signal} from '@angular/core';
+import {AuthService} from '../../../core/services/auth.service';
 import {Router} from '@angular/router';
+import {Field, form, required} from '@angular/forms/signals';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule, Field],
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
@@ -12,12 +14,37 @@ export class LoginComponent {
     private auth: AuthService,
     private router: Router
   ) {
-    console.log("LoginComponent initialized");
   }
 
-  login() {
-    console.log(this.auth);
-    this.auth.login({id: 1, username: "Ayoub"});
-    this.router.navigate(["/dashboard"]);
+  error = signal<string>("");
+  loading = signal<boolean>(false);
+
+  loginModel = signal({username: "", password: ""});
+  loginForm = form(this.loginModel, (schemaPath) => {
+    required(schemaPath.username, {message: 'Username is required'});
+    required(schemaPath.password, {message: 'Password is required'});
+  });
+
+  login(event: Event) {
+    event.preventDefault();
+
+    if (this.loginForm.username().value() && this.loginForm.password().value())
+      this.loading.set(true);
+      this.auth.login({
+        username: this.loginForm.username().value(),
+        password: this.loginForm.password().value()
+      })
+        .subscribe({
+          next: () => {
+            this.loading.set(false);
+            this.router.navigate(['/dashboard']);
+          },
+          error: error => {
+            console.log(error);
+
+            this.loading.set(false);
+            this.error.set(error.error.errors[0] || error.error.message);
+          }
+        });
   }
 }

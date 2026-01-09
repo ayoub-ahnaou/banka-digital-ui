@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../../../core/services/auth.principal';
+import {AuthService} from '../../../core/services/auth.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 })
 export class DashboardComponent {
   constructor(private auth: AuthService) {
-    console.log("DashboardComponent initialized");
   }
 
   logout() {
