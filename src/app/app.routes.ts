@@ -7,6 +7,11 @@ export const routes: Routes = [
       .then((m) => m.AUTH_ROUTES)
   },
   {
+    path: "register",
+    loadChildren: () => import("./features/auth/register.route")
+      .then((m) => m.REGISTER_ROUTES)
+  },
+  {
     path: "dashboard",
     loadChildren: () => import("./features/dashboard/dashboard.route")
       .then((m) => m.DASHBOARD_ROUTES)
