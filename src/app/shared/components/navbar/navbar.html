@@ -1,0 +1,19 @@
+<div class="contrast mx-auto w-full border border-gray-200">
+  <nav class="bg-white p-4 flex justify-between items-center">
+    <a href="/dashboard" class="text-lg font-medium flex items-center gap-2">
+      <span class="text-sm font-bold">Digital Bank .</span>
+    </a>
+    <ul class="flex space-x-4 text-xs">
+      <li><a href="/" class="hover:underline">Operations</a></li>
+    </ul>
+    <ul class="flex space-x-4 text-xs items-center">
+      <li><a href="/" class="hover:underline">Account</a></li>
+      <li (click)="logout()" class="hover:cursor-pointer flex items-center gap-1">
+        <span>Logout</span>
+        <span class="material-icons">
+        logout
+        </span>
+      </li>
+    </ul>
+  </nav>
+</div>
