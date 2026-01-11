@@ -12,7 +12,8 @@ export class Navbar {
   }
 
   logout() {
-    this.router.navigate(['login']).catch(console.error);
+    this.router.navigate(['login'], {replaceUrl: true})
+      .catch(console.error);
     this.auth.logout();
   }
 }
