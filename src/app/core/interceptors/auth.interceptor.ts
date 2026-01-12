@@ -3,7 +3,7 @@ import {HttpInterceptorFn} from '@angular/common/http';
 import {TokenService} from '../services/token.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = inject(TokenService).get();
+  const token = inject(TokenService).getToken();
 
   if (token)
     req = req.clone({
