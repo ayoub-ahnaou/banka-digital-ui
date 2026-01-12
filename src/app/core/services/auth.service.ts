@@ -39,8 +39,13 @@ export class AuthService {
       .pipe(
         tap(
           res => {
-            this.tokenService.save(res.data.accessToken);
-            this._principal.set(res.data.user);
+            this.tokenService.save(res.data.accessToken, res.data.role);
+            this._principal.set({
+              username: res.data.username,
+              email: res.data.email,
+              role: res.data.role
+            });
+            console.log(res);
           }
         ));
   }
@@ -48,6 +53,10 @@ export class AuthService {
   logout() {
     this._principal.set(null);
     this.tokenService.clear();
+  }
+
+  getUserRole(): string | null {
+    return this.tokenService.getRole();
   }
 
   isAuthenticated(): boolean {
