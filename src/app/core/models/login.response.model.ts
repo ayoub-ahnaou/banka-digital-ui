@@ -4,7 +4,9 @@ export interface LoginResponse {
   status: number;
   message: string;
   data: {
-    user: AuthPrincipal;
+    email: string;
+    username: string;
+    role: string;
 
     accessToken: string;
     createdAt: string;
