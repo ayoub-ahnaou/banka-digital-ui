@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, computed} from '@angular/core';
 import {AuthService} from '../../../core/services/auth.service';
-import {Router} from '@angular/router';
+import {UserStore} from '../../../core/state/UserStore';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,11 +9,8 @@ import {Router} from '@angular/router';
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent {
-  constructor(private auth: AuthService) {
+  constructor(private userStore: UserStore) {
   }
 
-  logout() {
-    console.log("Logging out...");
-    this.auth.logout();
-  }
+  user = computed(() => this.userStore.user());
 }
