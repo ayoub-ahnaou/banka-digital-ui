@@ -6,11 +6,6 @@ import {NotFound} from './shared/components/not-found/not.found';
 export const routes: Routes = [
   {
     path: "",
-    pathMatch: "full",
-    redirectTo: "dashboard"
-  },
-  {
-    path: "",
     component: AuthLayoutComponent,
     children: [
       {
@@ -38,7 +33,17 @@ export const routes: Routes = [
         path: "not-found",
         component: NotFound
       },
+      {
+        path: "operations",
+        loadChildren: () => import("./features/operation/operations.route")
+          .then((m) => m.OPERATIONS_ROUTES)
+      }
     ]
+  },
+  {
+    path: "",
+    pathMatch: "full",
+    redirectTo: "dashboard"
   },
   {
     path: "**",

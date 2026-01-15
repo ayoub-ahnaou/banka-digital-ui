@@ -1,19 +1,44 @@
-<div class="contrast mx-auto w-full border border-gray-200">
-  <nav class="bg-white p-4 flex justify-between items-center">
-    <a href="/dashboard" class="text-lg font-medium flex items-center gap-2">
-      <span class="text-sm font-bold">Digital Bank .</span>
+<aside class="w-64 bg-white border-r border-gray-200 min-h-full flex flex-col">
+
+  <div class="p-3 border-b border-gray-200">
+    <a [routerLink]='["/dashboard"]' class="text-lg font-bold">
+      Digital Bank <span class="text-green-400 text-xl">.</span>
     </a>
-    <ul class="flex space-x-4 text-xs">
-      <li><a href="/" class="hover:underline">Operations</a></li>
-    </ul>
-    <ul class="flex space-x-4 text-xs items-center">
-      <li><a href="/" class="hover:underline">Account</a></li>
-      <li (click)="logout()" class="hover:cursor-pointer flex items-center gap-1">
-        <span>Logout</span>
-        <span class="material-icons">
-        logout
-        </span>
+  </div>
+
+  <nav class="flex-1 mt-4 text-sm">
+    <ul>
+      <li>
+        <a [routerLink]='["/dashboard"]' class="block p-2 hover:bg-gray-100 border-b border-gray-200">
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a [routerLink]='["/operations"]' class="block p-2 hover:bg-gray-100 border-b border-gray-200">
+          Operations
+        </a>
+      </li>
+      <li>
+        <a [routerLink]='["/transactions"]' class="block p-2 hover:bg-gray-100 border-b border-gray-200">
+          Transactions
+        </a>
       </li>
     </ul>
   </nav>
-</div>
+
+  <div class="border-t border-gray-200 text-sm">
+    <ul>
+      <li>
+        <a [routerLink]='["/account"]' class="block p-2 rounded hover:bg-gray-100 border-b border-gray-200">
+          Account
+        </a>
+      </li>
+      <li>
+        <button (click)="logout()" class="block p-2 w-full text-left rounded hover:bg-gray-100 hover:cursor-pointer">
+          Logout
+        </button>
+      </li>
+    </ul>
+  </div>
+
+</aside>
