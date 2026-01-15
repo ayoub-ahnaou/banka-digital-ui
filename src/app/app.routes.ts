@@ -6,6 +6,11 @@ import {NotFound} from './shared/components/not-found/not.found';
 export const routes: Routes = [
   {
     path: "",
+    pathMatch: "full",
+    redirectTo: "dashboard"
+  },
+  {
+    path: "",
     component: AuthLayoutComponent,
     children: [
       {

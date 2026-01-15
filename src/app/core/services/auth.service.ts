@@ -1,8 +1,10 @@
 import {computed, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LoginResponse} from '../models/login.response.model';
-import {tap} from 'rxjs';
+import {switchMap, tap} from 'rxjs';
 import {TokenService} from './token.service';
+import {UserService} from './user.service';
+import {UserStore} from '../state/UserStore';
 
 export interface AuthPrincipal {
   username: string;
@@ -22,7 +24,9 @@ export class AuthService {
 
   private constructor(
     private http: HttpClient,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private userService: UserService,
+    private userStore: UserStore
   ) {
   }
 
@@ -47,7 +51,10 @@ export class AuthService {
             });
             console.log(res);
           }
-        ));
+        ),
+        switchMap(() => this.userService.getProfile()),
+        tap((user) => this.userStore.setUser(user))
+      );
   }
 
   logout() {
