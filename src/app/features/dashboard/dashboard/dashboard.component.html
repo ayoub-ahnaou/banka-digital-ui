@@ -1,5 +1,31 @@
-<h1>Dashboard</h1>
-<button (click)="logout()">Logout</button>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos ab laudantium inventore deleniti sequi, ratione laboriosam asperiores unde, neque porro voluptatum quaerat illo minus sed eaque! Quis non aliquam blanditiis.
-In excepturi vel voluptates a rem debitis, labore molestias. Necessitatibus unde quo ratione aut officia esse consequuntur porro adipisci exercitationem dolore. Minima, perferendis necessitatibus animi provident deserunt aliquam atque illo?</p>
+<div class="space-y-4">
 
+  <h1 class="text-2xl font-semibold">Welcome back {{ user()?.username }}</h1>
+
+  <!-- Balance Card -->
+  <div class="bg-white rounded-md p-6 shadow">
+    <p class="text-sm text-gray-500">Current Balance</p>
+    <p class="text-3xl font-bold mt-2">{{ user()?.balance }} MAD</p>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <div class="bg-white p-5 rounded-md shadow hover:shadow-md transition">
+      <h3 class="font-semibold">Deposit</h3>
+      <p class="text-sm text-gray-500 mt-2">Add money to your account</p>
+    </div>
+
+    <div class="bg-white p-5 rounded-md shadow hover:shadow-md transition">
+      <h3 class="font-semibold">Withdraw</h3>
+      <p class="text-sm text-gray-500 mt-2">Withdraw funds safely</p>
+    </div>
+
+    <div class="bg-white p-5 rounded-md shadow hover:shadow-md transition">
+      <h3 class="font-semibold">Transfer</h3>
+      <p class="text-sm text-gray-500 mt-2">Send money to another account</p>
+    </div>
+
+  </div>
+
+</div>
