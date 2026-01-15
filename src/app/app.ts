@@ -1,5 +1,8 @@
-import {Component, signal} from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
+import {AuthService} from './core/services/auth.service';
+import {UserStore} from './core/state/UserStore';
+import {UserService} from './core/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +11,25 @@ import {RouterOutlet} from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
+export class App implements OnInit {
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private userStore: UserStore
+  ) {
+  }
+
+  ngOnInit(): void {
+    if (this.auth.isAuthenticated()) {
+      this.userService.getProfile().subscribe({
+        next: user => {
+          this.userStore.setUser(user);
+        },
+        error: err => {
+          console.error('Failed to fetch user profile on app init', err);
+          this.auth.logout();
+        }
+      })
+    }
+  }
 }
