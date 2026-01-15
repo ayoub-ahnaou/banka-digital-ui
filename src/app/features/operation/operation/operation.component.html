@@ -1,0 +1,94 @@
+<div>
+
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold mb-6">Operations</h2>
+    <a
+      [routerLink]='["/operations/new"]'
+      class="bg-black text-white px-4 py-2 rounded text-sm"
+    >
+      New Operation
+    </a>
+  </div>
+
+  @if (loading()) {
+    <div class="text-gray-500 text-sm">
+      Loading operations...
+    </div>
+  }
+
+  @if (error()) {
+    <div class="text-red-600 text-sm">
+      {{ error() }}
+    </div>
+  }
+
+  @if (!loading() && !error() && operations().length === 0) {
+    <div
+      class="text-gray-500 text-sm bg-gray-50 rounded-lg"
+    >
+      No operations exist for now.
+    </div>
+  }
+
+  @if (operations().length > 0) {
+    <div
+      class="overflow-x-auto"
+    >
+      <table class="w-full text-xs ">
+
+        <thead class="text-gray-500">
+        <tr class="border-b border-gray-200">
+          <th class="text-left py-3">Type</th>
+          <th class="text-left py-3">Amount</th>
+          <th class="text-left py-3">Status</th>
+          <th class="text-left py-3">Source Account</th>
+          <th class="text-left py-3">Created At</th>
+        </tr>
+        </thead>
+
+        <tbody class="">
+
+          @for (op of operations(); track op.createdAt) {
+            <tr
+              class="cursor-pointer transition border-b border-gray-200"
+            >
+              <!-- Type -->
+              <td class="py-4 font-medium">
+                {{ op.type }}
+              </td>
+
+              <!-- Amount -->
+              <td
+                class="font-medium text-sm"
+                [ngClass]="{
+              'text-green-600': op.type === 'DEPOSIT',
+              'text-red-600': op.type !== 'DEPOSIT'
+            }"
+              >
+                {{ op.type == 'DEPOSIT' ? "+" + op.amount : -op.amount | number:'1.2-2' }} MAD
+              </td>
+
+              <!-- Status -->
+              <td class="py-4 text-xs font-medium text-gray-500">
+                {{ op.status }}
+              </td>
+
+              <!-- Source Account -->
+              <td class="py-4 text-gray-600 font-bold">
+                {{ op.accountSourceNumber }}
+              </td>
+
+              <!-- Created -->
+              <td class="py-4 text-gray-500">
+                {{ op.createdAt | date:'yyyy-MM-dd HH:mm:ss' }}
+              </td>
+
+            </tr>
+          }
+
+        </tbody>
+
+      </table>
+    </div>
+  }
+</div>
