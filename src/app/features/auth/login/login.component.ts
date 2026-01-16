@@ -37,7 +37,15 @@ export class LoginComponent {
         .subscribe({
           next: () => {
             this.loading.set(false);
-            this.router.navigate(['/dashboard']).catch(error => console.log("Navigation error"));
+            switch (this.auth.getUserRole()) {
+              case 'CLIENT':
+                this.router.navigate(['/dashboard']).catch(error => console.log("Navigation error"));
+                break;
+              case 'BANK_AGENT':
+                this.router.navigate(['/agent/dashboard']).catch(error => console.log("Navigation error"));
+                break;
+              // TODO: Add ADMIN role navigation
+            }
           },
           error: error => {
             console.log(error);
