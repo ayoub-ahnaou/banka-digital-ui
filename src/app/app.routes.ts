@@ -54,13 +54,13 @@ export const routes: Routes = [
   },
 
   // ADMIN ROUTES
-  /*{
+  {
     path: "admin",
     canActivate: [AuthGuard, AdminGuard],
     loadChildren: () =>
-      import("./features/admin/admin.route")
+      import("./features/admin/admin.routes")
         .then(m => m.ADMIN_ROUTES)
-  },*/
+  },
 
   // OTHER ROUTES
   {
