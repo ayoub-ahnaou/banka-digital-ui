@@ -6,6 +6,7 @@ import {ApiResponse} from '../../../core/models/api.response.model';
 import {RouterLink} from '@angular/router';
 import {DocumentService} from '../../../core/services/document.service';
 import {ToastService} from '../../../core/services/toast.service';
+import {Document} from '../../../core/models/document.model';
 
 @Component({
   selector: 'app-operation',
@@ -23,6 +24,11 @@ export class OperationComponent implements OnInit {
   selectedOperation = signal<Operation | null>(null);
   selectedFile = signal<File | null>(null);
   uploading = signal(false);
+
+  // Document visualisation
+  documents = signal<Document[]>([]);
+  documentsLoading = signal(false);
+  documentsError = signal<string | null>(null);
 
   constructor(
     private operationService: OperationService,
@@ -47,11 +53,12 @@ export class OperationComponent implements OnInit {
 
   // 🔥 Open modal ONLY if pending
   onOperationClick(op: Operation) {
-    console.log(op);
     if (op.status !== 'PENDING') return;
 
     this.selectedOperation.set(op);
     this.showModal.set(true);
+
+    this.loadDocuments(op.id);
   }
 
   closeModal() {
@@ -87,6 +94,23 @@ export class OperationComponent implements OnInit {
           console.error(err);
           this.error.set(err.message || 'File upload failed');
           this.uploading.set(false);
+        }
+      });
+  }
+
+  loadDocuments(operationId: string) {
+    this.documentsLoading.set(true);
+    this.documentsError.set(null);
+
+    this.documentService.getDocumentsByOperation(+operationId)
+      .subscribe({
+        next: res => {
+          this.documents.set(res.data);
+          this.documentsLoading.set(false);
+        },
+        error: () => {
+          this.documentsError.set('Failed to load documents');
+          this.documentsLoading.set(false);
         }
       });
   }
