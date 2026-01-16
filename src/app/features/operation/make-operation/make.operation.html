@@ -1,59 +1,89 @@
-<div class="max-w-xl">
+<div class="">
 
-  <h2 class="text-xl font-semibold mb-6">New Operation</h2>
-
-  <!-- Operation Type -->
-  <div class="flex gap-2 mb-6">
-    <button
-      class="px-4 py-2 text-sm rounded border"
-      [class.bg-blue-600]="type() === 'DEPOSIT'"
-      [class.text-white]="type() === 'DEPOSIT'"
-      (click)="setType('DEPOSIT')"
-    >
-      Deposit
-    </button>
-
-    <button
-      class="px-4 py-2 text-sm rounded border"
-      [class.bg-blue-600]="type() === 'WITHDRAW'"
-      [class.text-white]="type() === 'WITHDRAW'"
-      (click)="setType('WITHDRAW')"
-    >
-      Withdraw
-    </button>
-
-    <button
-      class="px-4 py-2 text-sm rounded border"
-      [class.bg-blue-600]="type() === 'TRANSFER'"
-      [class.text-white]="type() === 'TRANSFER'"
-      (click)="setType('TRANSFER')"
-    >
-      Transfer
-    </button>
+  <!-- Header -->
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold">New Operation</h2>
+    <p class="text-sm text-gray-500 mt-1">
+      Choose the operation type and enter the details
+    </p>
   </div>
 
-  <!-- Form -->
-  <div class="bg-white p-6 rounded-lg border space-y-4">
+  <!-- Operation Type -->
+  <div class="grid grid-cols-3 gap-3 mb-8">
+
+    <!-- Deposit -->
+    <button
+      (click)="setType('DEPOSIT')"
+      class="p-4 border rounded-lg text-left transition"
+      [ngClass]="{
+        'border-green-600 bg-green-50': type() === 'DEPOSIT',
+        'border-gray-200 hover:bg-gray-50': type() !== 'DEPOSIT'
+      }"
+    >
+      <p class="text-sm font-semibold">Deposit</p>
+      <p class="text-xs text-gray-500 mt-1">
+        Add money to your account
+      </p>
+    </button>
+
+    <!-- Withdraw -->
+    <button
+      (click)="setType('WITHDRAW')"
+      class="p-4 border rounded-lg text-left transition"
+      [ngClass]="{
+        'border-red-600 bg-red-50': type() === 'WITHDRAW',
+        'border-gray-200 hover:bg-gray-50': type() !== 'WITHDRAW'
+      }"
+    >
+      <p class="text-sm font-semibold">Withdraw</p>
+      <p class="text-xs text-gray-500 mt-1">
+        Take money from your account
+      </p>
+    </button>
+
+    <!-- Transfer -->
+    <button
+      (click)="setType('TRANSFER')"
+      class="p-4 border rounded-lg text-left transition"
+      [ngClass]="{
+        'border-blue-600 bg-blue-50': type() === 'TRANSFER',
+        'border-gray-200 hover:bg-gray-50': type() !== 'TRANSFER'
+      }"
+    >
+      <p class="text-sm font-semibold">Transfer</p>
+      <p class="text-xs text-gray-500 mt-1">
+        Send money to another account
+      </p>
+    </button>
+
+  </div>
+
+  <!-- Form Card -->
+  <div class="bg-white border border-gray-200 rounded-md p-6 space-y-5">
 
     <!-- Amount -->
     <div>
-      <label class="block text-xs text-gray-500 mb-1">Amount</label>
+      <label class="block text-xs font-medium text-gray-500 mb-1">
+        Amount (MAD)
+      </label>
       <input
         type="number"
-        class="w-full border rounded px-3 py-2 text-sm"
+        placeholder="0.00"
+        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         [(ngModel)]="amount"
       />
     </div>
 
-    <!-- Destination Account (Transfer only) -->
+    <!-- Transfer Only -->
     @if (type() === 'TRANSFER') {
       <div>
-        <label class="block text-xs text-gray-500 mb-1">
+        <label class="block text-xs font-medium text-gray-500 mb-1">
           Destination Account Number
         </label>
         <input
           type="text"
-          class="w-full border rounded px-3 py-2 text-sm"
+          placeholder="ACC-XXXX-XXXX"
+          class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           [(ngModel)]="destinationAccountId"
         />
       </div>
@@ -61,18 +91,21 @@
 
     <!-- Error -->
     @if (error()) {
-      <p class="text-red-600 text-sm">
-        {{ error() }}
-      </p>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <p class="text-sm text-red-600">
+          {{ error() }}
+        </p>
+      </div>
     }
 
     <!-- Submit -->
     <button
-      class="w-full bg-blue-600 text-white py-2 rounded text-sm"
+      class="w-full bg-black text-white py-2.5 rounded-lg text-sm font-medium
+             hover:bg-gray-900 transition disabled:opacity-50"
       (click)="submit()"
       [disabled]="loading()"
     >
-      {{ loading() ? 'Processing...' : 'Confirm Operation' }}
+      {{ loading() ? 'Processing operation...' : 'Confirm operation' }}
     </button>
 
   </div>

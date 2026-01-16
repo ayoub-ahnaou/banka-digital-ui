@@ -2,11 +2,13 @@ import {Component, signal} from '@angular/core';
 import {OperationService} from '../../../core/services/operation.service';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-make-operation',
   imports: [
-    FormsModule
+    FormsModule,
+    NgClass
   ],
   templateUrl: './make.operation.html',
 })
