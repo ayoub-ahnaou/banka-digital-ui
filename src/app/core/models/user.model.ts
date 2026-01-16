@@ -4,4 +4,5 @@ export interface User {
   email: string;
   role: string;
   balance: number;
+  active: boolean;
 }

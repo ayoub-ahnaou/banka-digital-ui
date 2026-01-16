@@ -44,7 +44,9 @@ export class LoginComponent {
               case 'BANK_AGENT':
                 this.router.navigate(['/agent/dashboard']).catch(error => console.log("Navigation error"));
                 break;
-              // TODO: Add ADMIN role navigation
+              case 'ADMIN':
+                this.router.navigate(['/admin/dashboard']).catch(error => console.log("Navigation error"));
+                break;
             }
           },
           error: error => {
