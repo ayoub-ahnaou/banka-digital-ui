@@ -25,4 +25,10 @@ export class DocumentService {
       `${this.API_URL}/documents/upload/${operationId}`
     );
   }
+
+  getDocumentsByOperationForAgent(operationId: number) {
+    return this.http.get<ApiResponse<Document[]>>(
+      `${this.API_URL}/operations/${operationId}/documents`
+    );
+  }
 }
