@@ -1,7 +1,7 @@
 <div>
 
-  <div class="flex items-center justify-between">
-    <h2 class="text-xl font-semibold mb-6">Operations</h2>
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-xl font-semibold">Operations</h2>
     <a
       [routerLink]='["/operations/new"]'
       class="bg-black text-white px-4 py-2 rounded text-sm"
@@ -149,6 +149,48 @@
         </button>
       </div>
 
+      <!-- Documents List -->
+      <div class="mt-6">
+
+        <h3 class="text-sm font-semibold mb-3">
+          Uploaded documents
+        </h3>
+
+        @if (documentsLoading()) {
+          <p class="text-sm text-gray-500">Loading documents...</p>
+        }
+
+        @if (!documentsLoading() && documents().length === 0) {
+          <p class="text-sm text-gray-400">
+            No documents uploaded yet.
+          </p>
+        }
+
+        @if (documents().length > 0) {
+          @for (doc of documents(); track doc.id) {
+            <ul class="space-y-2">
+              <li
+                class="flex items-center justify-between
+                 p-3 border rounded-lg text-sm"
+              >
+                <div>
+                  <p class="font-medium text-gray-700">
+                    {{ doc.fileName }}
+                  </p>
+                  <p class="text-xs text-gray-400">
+                    {{ doc.createdAt | date:'yyyy-MM-dd HH:mm' }}
+                  </p>
+                </div>
+
+                <span class="text-xs text-gray-500">
+                  {{ doc.fileType }}
+                </span>
+              </li>
+            </ul>
+          }
+        }
+
+      </div>
     </div>
   </div>
 }
